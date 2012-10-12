@@ -7,7 +7,7 @@ class exampleTest extends CTestCase {
 		$this->assertFalse(false);
 	}
 
-	public function testLoginForm()
+/*	public function testLoginForm()
 	{
 		$oForm = new LoginForm;
 		$this->assertFalse($oForm->validate());
@@ -21,7 +21,7 @@ class exampleTest extends CTestCase {
 		$this->assertFalse($oIden->authenticate());
 		$oIden = new UserIdentity('admin', 'admin');
 		$this->assertTrue($oIden->authenticate());
-	}
+	}*/
 }
 
 ?>
