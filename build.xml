@@ -12,7 +12,10 @@
                 <antcall target="phpmd-ci"/>
             </sequential>
             <antcall target="phpcpd"/>
-            <antcall target="phpcs-ci"/>
+            <sequential>
+                <antcall target="antcall"/>
+                <phpcs target="phpcs-ci"/>
+            </sequential>
             <antcall target="phploc"/>
             <antcall target="phpdox"/>
         </parallel>
@@ -88,8 +91,8 @@
 
     <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
         <exec executable="phpcs">
-            <arg value="--standard=${basedir}/build/phpcs.xml" />
-            <arg path="${basedir}/protected/*.php" />
+            <!--<arg value="--standard=${basedir}/build/phpcs.xml" />-->
+            <arg value="${basedir}/protected/*.php" />
         </exec>
     </target>
 
@@ -97,8 +100,8 @@
         <exec executable="phpcs" output="/dev/null">
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-            <arg value="--standard=${basedir}/build/phpcs.xml" />
-            <arg path="${basedir}/protected/*.php" />
+            <!-- <arg value="--standard=${basedir}/build/phpcs.xml" /> -->
+            <arg value="${basedir}/protected/*.php" />
         </exec>
     </target>
 
