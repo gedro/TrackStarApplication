@@ -18,10 +18,6 @@
         </testsuite>
     </testsuites>
 
-    <selenium>
-	    <browser name="Firefox" browser="*firefox" />
-    </selenium>
-
     <logging>
         <log type="coverage-html" target="build/coverage" title="yii"
              charset="UTF-8" yui="true" highlight="true"
