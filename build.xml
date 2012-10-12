@@ -107,7 +107,7 @@
     </target>
 
     <target name="phpunit" description="Run unit tests using PHPUnit">
-        <exec dir="${basedir}/protected/tests/unit" executable="phpunit" failonerror="true">
+        <exec dir="${basedir}/protected/tests" executable="phpunit" failonerror="true">
             <arg line="--configuration ${basedir}/protected/tests/phpunit.xml
                        --log-junit ${basedir}/build/logs/junit.xml
                        --coverage-clover ${basedir}/build/logs/clover.xml
