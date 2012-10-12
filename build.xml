@@ -13,8 +13,8 @@
             </sequential>
             <antcall target="phpcpd"/>
             <sequential>
-                <antcall target="antcall"/>
-                <phpcs target="phpcs-ci"/>
+                <antcall target="phpcs"/>
+                <antcall target="phpcs-ci"/>
             </sequential>
             <antcall target="phploc"/>
             <antcall target="phpdox"/>
@@ -96,7 +96,7 @@
     </target>
 
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-        <exec executable="phpcs" output="/dev/null">
+        <exec executable="phpcs">
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
             <arg value="${basedir}/protected/*.php" />
