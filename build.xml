@@ -119,7 +119,10 @@
  </target>
 
  <target name="phpunit" description="Run unit tests using PHPUnit">
-    <exec executable="phpunit" failonerror="true" />
+    <exec executable="phpunit" failonerror="true">
+        <arg line="--configuration ${basedir}/protected/tests/phpunit.xml" />
+        <arg line="${basedir}/protected/tests/unit" />
+    </exec>
  </target>
 
  <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
