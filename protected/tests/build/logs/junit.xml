@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="DbTest" file="/home/harcos/Works/workspaces/php/TrackStarApplication/protected/tests/unit/DbTest.php" tests="1" assertions="1" failures="0" errors="0" time="0.001088">
+    <testcase name="testConnection" class="DbTest" file="/home/harcos/Works/workspaces/php/TrackStarApplication/protected/tests/unit/DbTest.php" line="4" assertions="1" time="0.001088"/>
+  </testsuite>
+</testsuites>

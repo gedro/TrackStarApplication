@@ -1,0 +1,22 @@
+<?php
+
+return array(
+	'yiiPath' => '/home/harcos/Works/workspaces/libs/php/yii-1.1.12.b600af/framework/yii.php',
+	'yiicPath' => '/home/harcos/Works/workspaces/libs/php/yii-1.1.12.b600af/framework/yiic.php',
+	'yiitPath' => '/home/harcos/Works/workspaces/libs/php/yii-1.1.12.b600af/framework/yiit.php',
+	
+	'configWeb' => array(
+		// Application components
+		'components' => array(
+
+			// Database
+			'db' => array(
+				'connectionString' => 'mysql:host=localhost;dbname=...',
+				'username' => 'root',
+				'password' => '...',
+			),
+
+		),
+
+	),
+);

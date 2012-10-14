@@ -4,12 +4,15 @@
  * This file should be removed when the application is deployed for production.
  */
 
-// change the following paths if necessary
-$yii=dirname(__FILE__).'/../../libs/php/yii-1.1.12.b600af/framework/yii.php';
-$config=dirname(__FILE__).'/protected/config/test.php';
+// set environment
+require_once(dirname(__FILE__) . '/protected/extensions/yii-environment/Environment.php');
+$env = new Environment('TEST'); //override mode
 
 // remove the following line when in production mode
-defined('YII_DEBUG') or define('YII_DEBUG',true);
+defined('YII_DEBUG') or define('YII_DEBUG', $env->yiiDebug);
+defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', $env->yiiTraceLevel);
 
-require_once($yii);
-Yii::createWebApplication($config)->run();
+// run Yii app
+require_once($env->yiiPath);
+$env->runYiiStatics(); // like Yii::setPathOfAlias()
+Yii::createWebApplication($env->configWeb)->run();
