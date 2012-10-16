@@ -1,4 +1,4 @@
-CREATE DATABASE trackstar_dev;
+CREATE DATABASE IF NOT EXISTS trackstar_dev;
 
 CREATE USER 'trackstar'@'%' IDENTIFIED BY  'trackstar';
 

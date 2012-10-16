@@ -106,13 +106,13 @@ return array(
 			    ),
 		    ),
 		),
-	),
-	
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
-	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		
+	    // application-level parameters that can be accessed
+	    // using Yii::app()->params['paramName']
+	    'params'=>array(
+		    // this is used in contact page
+		    'adminEmail'=>'webmaster@example.com',
+	    ),
 	),
 
 	// This is the Console application configuration. Any writable
