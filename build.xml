@@ -74,7 +74,7 @@
 
     <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
         <exec dir="${basedir}/protected" executable="phpmd" failonerror="false">
-            <arg line=". xml ${basedir}/build/phpmd.xml --reportfile ${basedir}/build/logs/pmd.xml" />
+            <arg line=". xml ${basedir}/build/phpmd.xml --reportfile ${basedir}/build/logs/pmd.xml --exclude *tests* --exclude *modules* --exclude *extensions*" />
         </exec>
     </target>
 
