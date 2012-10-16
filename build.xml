@@ -43,8 +43,6 @@
 
             <fileset dir="${basedir}/protected">
                 <include name="**/*.php" />
-                <exlude name="**/modules/*.php" />
-                <exlude name="**/extensions/*.php" />
                 <modified />
             </fileset>
 
