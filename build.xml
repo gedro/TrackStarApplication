@@ -43,6 +43,8 @@
 
             <fileset dir="${basedir}/protected">
                 <include name="**/*.php" />
+                <exlude name="**/modules/*.php" />
+                <exlude name="**/extensions/*.php" />
                 <modified />
             </fileset>
 
@@ -67,7 +69,7 @@
                        --jdepend-chart=${basedir}/build/pdepend/dependencies.svg
                        --overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg
                        --optimization=best
-                       --exclude=build,tests
+                       --exclude=build,tests,modules,extensions
                        ." />
         </exec>
     </target>  
@@ -80,14 +82,14 @@
 
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
         <exec dir="${basedir}/protected" executable="phpcs" failonerror="false" output="/dev/null">
-            <arg line="--extensions=php --ignore=tests/* --standard=Zend --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml ." />
+            <arg line="--extensions=php --ignore=tests/*,modules/*,extensions/* --standard=Zend --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml ." />
         </exec>
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
         <exec dir="${basedir}/protected" executable="phpcpd" failonerror="false">
             <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml
-                       --exclude tests
+                       --exclude tests,modules,extensions
                        ." />
         </exec>
         
