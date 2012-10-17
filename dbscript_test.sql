@@ -1,12 +1,10 @@
-CREATE DATABASE IF NOT EXISTS trackstar_dev;
+CREATE DATABASE IF NOT EXISTS trackstar_test;
 
-CREATE USER 'trackstar'@'localhost' IDENTIFIED BY  'trackstar';
-
-GRANT ALL PRIVILEGES ON  `trackstar_dev` . * TO  'trackstar'@'localhost';
+GRANT ALL PRIVILEGES ON  `trackstar_test` . * TO  'trackstar'@'localhost';
 
 FLUSH PRIVILEGES;
 
-USE trackstar_dev;
+USE trackstar_test;
 
 CREATE TABLE tbl_project (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,

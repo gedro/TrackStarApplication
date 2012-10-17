@@ -28,12 +28,9 @@ return array(
 
 		// Application components
 		'components' => array(
-
 			// Database
 			'db' => array(
-				'connectionString' => 'mysql:host=DEVELOPMENT_HOST;dbname=DEVELOPMENT_DB',
-				'username' => 'USERNAME',
-				'password' => 'PASSWORD',
+				'connectionString' => 'mysql:host=127.0.0.1;dbname=trackstar_dev',
 				'enableParamLogging' => true,
 			),
 

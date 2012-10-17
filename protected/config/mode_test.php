@@ -21,9 +21,7 @@ return array(
 
 			// Database
 			'db' => array(
-				'connectionString' => 'mysql:host=TEST_HOST;dbname=TEST_DBNAME',
-				'username' => 'USERNAME',
-				'password' => 'PASSWORD',
+				'connectionString' => 'mysql:host=127.0.0.1;dbname=trackstar_test',
 			),
 
 			// Fixture Manager for testing
