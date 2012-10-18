@@ -22,8 +22,16 @@
  * @property User $owner
  * @property Project $project
  */
-class Issue extends CActiveRecord
-{
+class Issue extends CActiveRecord {
+
+    const TYPE_BUG=0;
+    const TYPE_FEATURE=1;
+    const TYPE_TASK=2;
+    
+    const STATUS_NOTSTARTED=0;
+    const STATUS_STARTED=1;
+    const STATUS_FINISHED=2;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -124,4 +132,26 @@ class Issue extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+    /**
+    * @return array issue type names indexed by type IDs
+    */
+    public function getTypeOptions() {
+        return array(
+            self::TYPE_BUG=>'Bug',
+            self::TYPE_FEATURE=>'Feature',
+            self::TYPE_TASK=>'Task',
+        );
+    }
+    
+    /**
+    * @return array issue status names indexed by type IDs
+    */
+    public function getStatusOptions() {
+        return array(
+            self::STATUS_NOTSTARTED=>'Not yet started',
+            self::STATUS_STARTED=>'Started',
+            self::STATUS_FINISHED=>'Finished',
+        );
+    }
 }
