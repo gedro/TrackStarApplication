@@ -32,7 +32,13 @@ $this->menu=array(
             'name' => 'status_id',
             'value' => CHtml::encode($model->getStatusText())
         ),
-		'owner_id',
-		'requester_id',
+        array(
+            'name'=>'owner_id',
+            'value'=>CHtml::encode($model->owner->username)
+        ),
+        array(
+            'name'=>'requester_id',
+            'value'=>CHtml::encode($model->requester->username)
+        ),
 	),
 )); ?>
