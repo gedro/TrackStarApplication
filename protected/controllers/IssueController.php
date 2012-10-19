@@ -23,7 +23,7 @@ class IssueController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
-			'projectContext + create', //check to ensure valid project context
+			'projectContext + create index admin', //check to ensure valid project context
 		);
 	}
 
@@ -77,11 +77,11 @@ class IssueController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Issue']))
-		{
+		if(isset($_POST['Issue'])) {
 			$model->attributes=$_POST['Issue'];
-			if($model->save())
+			if($model->save()) {
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('create',array(
@@ -96,16 +96,17 @@ class IssueController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
+		$this->loadProject($model->project_id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Issue']))
-		{
+		if(isset($_POST['Issue'])) {
 			$model->attributes=$_POST['Issue'];
-			if($model->save())
+			if($model->save()) {
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('update',array(
@@ -130,9 +131,14 @@ class IssueController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Issue');
+	public function actionIndex() {
+		$dataProvider=new CActiveDataProvider('Issue', array(
+            'criteria'=>array(
+                'condition' => 'project_id=:projectId',
+                'params' => array(':projectId' => $this->_project->id),
+            ),
+        ));
+
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -145,8 +151,11 @@ class IssueController extends Controller
 	{
 		$model=new Issue('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Issue']))
+		if(isset($_GET['Issue'])) {
 			$model->attributes=$_GET['Issue'];
+		}
+		
+		$model->project_id = $this->_project->id;
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -161,8 +170,9 @@ class IssueController extends Controller
 	public function loadModel($id)
 	{
 		$model=Issue::model()->findByPk($id);
-		if($model===null)
+		if($model===null) {
 			throw new CHttpException(404,'The requested page does not exist.');
+		}
 		return $model;
 	}
 
