@@ -97,7 +97,6 @@ class IssueController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
-		$this->loadProject($model->project_id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -140,7 +139,8 @@ class IssueController extends Controller
         ));
 
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+			'dataProvider' => $dataProvider,
+			'project_id' => $this->_project->id,
 		));
 	}
 
@@ -172,6 +172,8 @@ class IssueController extends Controller
 		$model=Issue::model()->findByPk($id);
 		if($model===null) {
 			throw new CHttpException(404,'The requested page does not exist.');
+		} else {
+			$this->loadProject($model->project_id);
 		}
 		return $model;
 	}
