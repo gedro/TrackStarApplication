@@ -3,11 +3,13 @@ class ProjectTest extends CDbTestCase {
 
     public $fixtures = array (
         'projects' => 'Project',
+        'users' => 'User',
+        'projUsrAssign' => ':tbl_project_user_assignment',
     );
 
     public function testCreate() {
         //CREATE a new Project
-        $newProject=new Project;
+        $newProject = new Project;
         $newProjectName = 'Test Project Creation';
         $newProject->setAttributes(array(
             'name' => $newProjectName,
