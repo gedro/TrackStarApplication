@@ -203,9 +203,8 @@ class IssueController extends Controller
     public function filterProjectContext($filterChain) {
         //set the project identifier based on either the GET or POST input
         //request variables, since we allow both types for our actions
-        $projectId = $_GET['pid'] ?: $_POST['pid'] ?: null;
+        $projectId = null;
         
-        /*
         if(isset($_GET['pid'])) {
             $projectId = $_GET['pid'];
         } else {
@@ -213,11 +212,17 @@ class IssueController extends Controller
                 $projectId = $_POST['pid'];
             }
         }
-        */
         
         $this->loadProject($projectId);
 
         //complete the running of other filters and execute the requested action
         $filterChain->run();
+    }
+    
+    /**
+     * Returns the project model instance to which this issue belongs
+     */
+    public function getProject() {
+        return $this->_project;
     }
 }
