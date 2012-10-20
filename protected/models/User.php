@@ -20,13 +20,14 @@
  * @property Project[] $tblProjects
  */
 class User extends TrackStarActiveRecord {
+    public $password_repeat;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return User the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
 
@@ -46,9 +47,11 @@ class User extends TrackStarActiveRecord {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-		    array('email, username', 'unique'),
-			array('email', 'required'),
+			array('email, username, password', 'required'),
 			array('email, username, password', 'length', 'max'=>256),
+		    array('email, username', 'unique'),
+			array('password', 'compare'),
+			array('password_repeat', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, email, username, password, last_login_time, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
