@@ -20,7 +20,7 @@ class ProjectTest extends CDbTestCase {
         Yii::app()->user->setId($this->users('user1')->id);
 
         //save the new project, triggering attribute validation    
-        $this->assertTrue($newProject->save(false));
+        $this->assertTrue($newProject->save());
     
         //READ back the newly created Project to ensure the creation worked
         $retrievedProject=Project::model()->findByPk($newProject->id);
