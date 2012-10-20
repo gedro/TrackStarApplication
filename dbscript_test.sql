@@ -74,6 +74,32 @@ ALTER TABLE tbl_project_user_assignment ADD CONSTRAINT FK_user_project
     FOREIGN KEY (user_id) REFERENCES tbl_user (id)
     ON DELETE CASCADE ON UPDATE RESTRICT;
 
+CREATE TABLE IF NOT EXISTS AuthItem (
+   `name`                 varchar(64) not null,
+   `type`                 integer not null,
+   `description`          text,
+   `bizrule`              text,
+   `data`                 text,
+   primary key (`name`)
+) engine InnoDB;
+
+CREATE TABLE IF NOT EXISTS AuthItemChild (
+   `parent`               varchar(64) not null,
+   `child`                varchar(64) not null,
+   primary key (`parent`,`child`),
+   foreign key (`parent`) references `AuthItem` (`name`) on delete cascade on update cascade,
+   foreign key (`child`) references `AuthItem` (`name`) on delete cascade on update cascade
+) engine InnoDB;
+
+CREATE TABLE IF NOT EXISTS AuthAssignment (
+   `itemname`             varchar(64) not null,
+   `userid`               varchar(64) not null,
+   `bizrule`              text,
+   `data`                 text,
+   primary key (`itemname`,`userid`),
+   foreign key (`itemname`) references `AuthItem` (`name`) on delete cascade on update cascade
+) engine InnoDB;
+
 -- Insert some seed data so we can just begin using the database
 INSERT INTO tbl_user (email, username, password) VALUES
     ('test1@notanaddress.com','Test_User_One', MD5('test1')),
