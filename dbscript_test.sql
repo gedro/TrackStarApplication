@@ -105,3 +105,37 @@ INSERT INTO tbl_user (email, username, password) VALUES
     ('test1@notanaddress.com','Test_User_One', MD5('test1')),
     ('test2@notanaddress.com','Test_User_Two', MD5('test2'));
 
+INSERT INTO `AuthItem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES
+    ('createIssue', 0, 0x6372656174652061206e6577206973737565, NULL, 0x4e3b),
+    ('createProject', 0, 0x6372656174652061206e65772070726f6a656374, NULL, 0x4e3b),
+    ('createUser', 0, 0x6372656174652061206e65772075736572, NULL, 0x4e3b),
+    ('deleteIssue', 0, 0x64656c65746520616e2069737375652066726f6d20612070726f6a656374, NULL, 0x4e3b),
+    ('deleteProject', 0, 0x64656c65746520612070726f6a656374, NULL, 0x4e3b),
+    ('deleteUser', 0, 0x72656d6f7665206120757365722066726f6d20612070726f6a656374, NULL, 0x4e3b),
+    ('member', 2, '', NULL, 0x4e3b),
+    ('owner', 2, '', NULL, 0x4e3b),
+    ('readIssue', 0, 0x7265616420697373756520696e666f726d6174696f6e, NULL, 0x4e3b),
+    ('readProject', 0, 0x726561642070726f6a65637420696e666f726d6174696f6e, NULL, 0x4e3b),
+    ('readUser', 0, 0x7265616420757365722070726f66696c6520696e666f726d6174696f6e, NULL, 0x4e3b),
+    ('reader', 2, '', NULL, 0x4e3b),
+    ('updateIssue', 0, 0x75706461746520697373756520696e666f726d6174696f6e, NULL, 0x4e3b),
+    ('updateProject', 0, 0x7570646174652070726f6a65637420696e666f726d6174696f6e, NULL, 0x4e3b),
+    ('updateUser', 0, 0x757064617465206120757365727320696e666f726d6174696f6e, NULL, 0x4e3b);
+
+INSERT INTO `AuthItemChild` (`parent`, `child`) VALUES
+    ('member', 'createIssue'),
+    ('owner', 'createProject'),
+    ('owner', 'createUser'),
+    ('member', 'deleteIssue'),
+    ('owner', 'deleteProject'),
+    ('owner', 'deleteUser'),
+    ('owner', 'member'),
+    ('reader', 'readIssue'),
+    ('reader', 'readProject'),
+    ('reader', 'readUser'),
+    ('member', 'reader'),
+    ('owner', 'reader'),
+    ('member', 'updateIssue'),
+    ('owner', 'updateProject'),
+    ('owner', 'updateUser');
+
