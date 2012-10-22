@@ -107,4 +107,41 @@ class Project extends TrackStarActiveRecord {
         $usersArray = CHtml::listData($this->users, 'id', 'username');
         return $usersArray;
     }
+ 
+    private function execCmddOnProjectUserRoleTbl( $sql, $role, $userId = null ) {
+        $command = Yii::app()->db->createCommand($sql);
+        
+        $command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
+        $command->bindValue(":userId", $userId == null ? Yii::app()->user->getId() : $userId, PDO::PARAM_INT);
+        $command->bindValue(":role", $role, PDO::PARAM_STR);
+        
+        return $command->execute;
+    }
+    
+    /**
+     * creates an association between the project, the user and the
+     * user's role within the project
+     */
+    public function associateUserToRole($role, $userId) {
+        $sql = "INSERT INTO tbl_project_user_role (project_id, user_id, role) VALUES (:projectId, :userId, :role)";
+        return $this->execCmddOnProjectUserRoleTbl($sql, $role, $userId) === 1;
+    }
+    
+    /**
+     * removes an association between the project, the user and the
+     * user's role within the project
+     */
+    public function removeUserFromRole($role, $userId) {
+        $sql = "DELETE FROM tbl_project_user_role WHERE project_id=:projectId AND user_id=:userId AND role=:role";
+        return $this->execCmddOnProjectUserRoleTbl($sql, $role, $userId) === 1;
+    }
+    
+    /**
+     * @return boolean whether or not the current user is in the
+     * specified role within the context of this project
+     */
+    public function isUserInRole($role) {
+        $sql = "SELECT role FROM tbl_project_user_role WHERE project_id=:projectId AND user_id=:userId AND role=:role";
+        return $this->execCmddOnProjectUserRoleTbl($sql, $role) === 1;
+    }
 }
