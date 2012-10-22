@@ -108,7 +108,7 @@ class Project extends TrackStarActiveRecord {
         return $usersArray;
     }
  
-    private function execCmddOnProjectUserRoleTbl( $sql, $role, $userId = null ) {
+    private function execCmdOnProjectUserRoleTbl( $sql, $role, $userId = null ) {
         $command = Yii::app()->db->createCommand($sql);
         
         $command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
@@ -124,7 +124,7 @@ class Project extends TrackStarActiveRecord {
      */
     public function associateUserToRole($role, $userId) {
         $sql = "INSERT INTO tbl_project_user_role (project_id, user_id, role) VALUES (:projectId, :userId, :role)";
-        return $this->execCmddOnProjectUserRoleTbl($sql, $role, $userId) === 1;
+        return $this->execCmdOnProjectUserRoleTbl($sql, $role, $userId) === 1;
     }
     
     /**
@@ -133,7 +133,7 @@ class Project extends TrackStarActiveRecord {
      */
     public function removeUserFromRole($role, $userId) {
         $sql = "DELETE FROM tbl_project_user_role WHERE project_id=:projectId AND user_id=:userId AND role=:role";
-        return $this->execCmddOnProjectUserRoleTbl($sql, $role, $userId) === 1;
+        return $this->execCmdOnProjectUserRoleTbl($sql, $role, $userId) === 1;
     }
     
     /**
@@ -142,6 +142,51 @@ class Project extends TrackStarActiveRecord {
      */
     public function isUserInRole($role) {
         $sql = "SELECT role FROM tbl_project_user_role WHERE project_id=:projectId AND user_id=:userId AND role=:role";
-        return $this->execCmddOnProjectUserRoleTbl($sql, $role) === 1;
+        return $this->execCmdOnProjectUserRoleTbl($sql, $role) === 1;
+    }
+    
+    /**
+     * Returns an array of available roles in which a user can be
+     * placed when being added to a project
+     */
+    public static function getUserRoleOptions() {
+        return CHtml::listData(Yii::app()->authManager->getRoles(), 'name', 'name');
+    }
+
+    public static function getBizRuleForUserInRole( $role ) {
+        return 'return isset($params["project"]) && $params["project"]->isUserInRole("'.$role.'");';
+    }
+    
+    public static function assignUserRoleToAuthManager($role, $user) {
+        $auth = Yii::app()->authManager;
+        $bizRule = Project::getBizRuleForUserInRole($role);
+        $auth->assign($role, $user, $bizRule);
+        
+        return $auth;
+    }
+
+    private function execCmdOnProjectUserAssignmentTbl( $sql, $user ) {
+        $command = Yii::app()->db->createCommand($sql);
+        
+        $command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
+        $command->bindValue(":userId", $user->id, PDO::PARAM_INT);
+        
+        return $command->execute();
+    }
+
+    /**
+     * Makes an association between a user and a the project
+     */
+    public function associateUserToProject($user) {
+        $sql = "INSERT INTO tbl_project_user_assignment (project_id, user_id) VALUES (:projectId, :userId)";
+        return $this->execCmdOnProjectUserAssignmentTbl($sql, $user) === 1;
+    }
+    
+    /*
+     * Determines whether or not a user is already part of a project
+     */
+    public function isUserInProject($user) {
+        $sql = "SELECT user_id FROM tbl_project_user_assignment WHERE project_id=:projectId AND user_id=:userId";
+        return $this->execCmdOnProjectUserAssignmentTbl($sql, $user) === 1;
     }
 }

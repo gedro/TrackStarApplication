@@ -88,11 +88,9 @@ class ProjectTest extends CDbTestCase {
         $project = Project::model()->findByPk($row1['project_id']);
         Yii::app()->user->setId($row1['user_id']);
 
-        $auth = Yii::app()->authManager;
-        $bizRule='return isset($params["project"]) && $params["project"]->isUserInRole("member");';
-        $auth->assign('member', $row1['user_id'], $bizRule);
-        $params=array('project' => $project);
+        Project::assignUserRoleToAuthManager('member', $row1['user_id']);
         
+        $params=array('project' => $project);
         $this->assertTrue(Yii::app()->user->checkAccess('updateIssue', $params));
         $this->assertTrue(Yii::app()->user->checkAccess('readIssue', $params));
         $this->assertFalse(Yii::app()->user->checkAccess('updateProject', $params));
@@ -104,6 +102,25 @@ class ProjectTest extends CDbTestCase {
         $this->assertFalse(Yii::app()->user->checkAccess('updateIssue',$params));
         $this->assertFalse(Yii::app()->user->checkAccess('readIssue',$params));
         $this->assertFalse(Yii::app()->user->checkAccess('updateProject', $params));
+    }
+    
+    public function testGetUserRoleOptions() {
+        $options = Project::getUserRoleOptions();
+        
+        $this->assertEquals(count($options), 3);
+        
+        $this->assertTrue(isset($options['reader']));
+        $this->assertTrue(isset($options['member']));
+        $this->assertTrue(isset($options['owner']));
+    }
+    
+    public function testUserProjectAssignment() {
+        //since our fixture data already has the two users assigned
+        //to project 1, we'll assign user 1 to project 2
+        $this->projects('project2')->associateUserToProject($this->users('user1'));
+        $this->assertTrue(
+            $this->projects('project1')->isUserInProject($this->users('user1'))
+        );
     }
 }
 

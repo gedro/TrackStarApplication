@@ -33,5 +33,4 @@
 	<?php echo CHtml::encode($data->update_user_id); ?>
 	<br />
 
-
 </div>
