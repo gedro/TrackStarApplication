@@ -105,9 +105,9 @@ CREATE TABLE IF NOT EXISTS tbl_project_user_role (
     user_id INTEGER NOT NULL,
     role VARCHAR(64) NOT NULL,
     primary key (project_id,user_id,role),
-    foreign key (project_id) references tbl_project (id),
-    foreign key (user_id) references tbl_user (id),
-    foreign key (role) references AuthItem (name)
+    foreign key (project_id) references tbl_project (id) ON DELETE CASCADE ON UPDATE RESTRICT,
+    foreign key (user_id) references tbl_user (id) ON DELETE CASCADE ON UPDATE RESTRICT,
+    foreign key (role) references AuthItem (name) ON DELETE CASCADE ON UPDATE RESTRICT
 ) engine InnoDB;
 
 -- Insert some seed data so we can just begin using the database

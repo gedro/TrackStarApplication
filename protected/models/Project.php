@@ -115,7 +115,7 @@ class Project extends TrackStarActiveRecord {
         $command->bindValue(":userId", $userId == null ? Yii::app()->user->getId() : $userId, PDO::PARAM_INT);
         $command->bindValue(":role", $role, PDO::PARAM_STR);
         
-        return $command->execute;
+        return $command->execute();
     }
     
     /**
