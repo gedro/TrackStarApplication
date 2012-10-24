@@ -57,10 +57,14 @@ class IssueController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+	public function actionView($id) {
+    	$issue = $this->loadModel($id);
+        $comment = $this->createComment($issue);
+        
+		$this->render('view', array(
+			'model' => $this->loadModel($id),
+			'comment' => $comment,
+
 		));
 	}
 
@@ -237,4 +241,19 @@ class IssueController extends Controller
     public function getProject() {
         return $this->_project;
     }
+    
+    protected function createComment($issue) {
+        $comment = new Comment;
+        if(isset($_POST['Comment'])) {
+            $comment->attributes = $_POST['Comment'];
+            
+            if($issue->addComment($comment)) {
+                Yii::app()->user->setFlash('commentSubmitted', "Your comment has been added.");
+                $this->refresh();
+            }
+        }
+        
+        return $comment;
+    }
+
 }

@@ -177,4 +177,12 @@ class Issue extends TrackStarActiveRecord {
                     $typeOptions[$this->type_id] :
                     "unknown type ({$this->type_id})";
     }
+    
+    /**
+     * Adds a comment to this issue
+     */
+    public function addComment($comment) {
+        $comment->issue_id=$this->id;
+        return $comment->save();
+    }
 }
