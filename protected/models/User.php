@@ -127,4 +127,16 @@ class User extends TrackStarActiveRecord {
     public function encrypt($value) {
         return md5($value);
     }
+    
+    public function addProjectRole($project, $role) {
+        if($project->isUserInProject($this)) {
+            return false;
+        } else {
+            $project->associateUserToProject($this);
+            $project->associateUserToRole($role, $this->id);
+            Project::assignUserRoleToAuthManager($role, $this->id);
+            
+            return true;
+        }
+    }
 }

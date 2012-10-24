@@ -46,13 +46,8 @@ class ProjectUserForm extends CFormModel {
         // we only want to authenticate when no other input errors are present
         if(!$this->hasErrors()) {
             $user = User::model()->findByAttributes(array('username' => $this->username));
-            if($this->project->isUserInProject($user)) {
+            if(!$user->addProjectRole($this->project, $this->role)) {
                 $this->addError('username', 'This user has already been added to the project.');
-            } else {
-                $this->project->associateUserToProject($user);
-                $this->project->associateUserToRole($this->role, $user->id);
-                
-                Project::assignUserRoleToAuthManager($this->role, $user->id);
             }
         }
     }

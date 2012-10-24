@@ -160,7 +160,9 @@ class Project extends TrackStarActiveRecord {
     public static function assignUserRoleToAuthManager($role, $user) {
         $auth = Yii::app()->authManager;
         $bizRule = Project::getBizRuleForUserInRole($role);
-        $auth->assign($role, $user, $bizRule);
+        if(!$auth->isAssigned($role, $user)) {
+            $auth->assign($role, $user, $bizRule);
+        }
         
         return $auth;
     }

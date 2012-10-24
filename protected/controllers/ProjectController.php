@@ -80,8 +80,11 @@ class ProjectController extends Controller
 		if(isset($_POST['Project']))
 		{
 			$model->attributes=$_POST['Project'];
-			if($model->save())
+			if($model->save()) {
+    			$user = User::model()->findByPk(Yii::app()->user->id);
+    			$user->addProjectRole($model, 'owner');
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('create',array(
