@@ -110,6 +110,24 @@ CREATE TABLE IF NOT EXISTS tbl_project_user_role (
     foreign key (role) references AuthItem (name) ON DELETE CASCADE ON UPDATE RESTRICT
 ) engine InnoDB;
 
+CREATE TABLE IF NOT EXISTS tbl_comment (
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    content TEXT NOT NULL,
+    issue_id INTEGER,
+    create_time DATETIME,
+    create_user_id INTEGER,
+    update_time DATETIME,
+    update_user_id INTEGER
+) engine InnoDB;
+
+ALTER TABLE tbl_comment ADD CONSTRAINT FK_comment_issue
+    FOREIGN KEY (issue_id) REFERENCES tbl_issue (id)
+    ON DELETE CASCADE ON UPDATE RESTRICT;
+    
+ALTER TABLE tbl_comment ADD CONSTRAINT FK_comment_author
+    FOREIGN KEY (create_user_id) REFERENCES tbl_user (id)
+    ON DELETE CASCADE ON UPDATE RESTRICT;
+
 -- Insert some seed data so we can just begin using the database
 INSERT INTO tbl_user (email, username, password) VALUES
     ('test1@notanaddress.com','Test_User_One', MD5('test1')),
