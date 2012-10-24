@@ -104,4 +104,19 @@ class Comment extends TrackStarActiveRecord {
 			'criteria'=>$criteria,
 		));
 	}
+	
+    public static function findRecentComments($limit = 10, $projectId = null) {
+        if($projectId != null) {
+            $with = array('issue' => array('condition' => 'project_id=' . $projectId));
+        } else {
+            $with = 'issue';
+        }
+
+        return self::model()->with($with)->findAll(
+            array(
+                'order' => 't.create_time DESC',
+                'limit' => $limit,
+            )
+        );
+    }
 }
