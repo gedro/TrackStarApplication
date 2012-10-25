@@ -62,6 +62,17 @@ return array(
                 'class'=>'CDbAuthManager',
                 'connectionID'=>'db',
             ),
+            
+            'urlManager'=>array(
+                'urlFormat'=>'path',
+                'showScriptName'=>false,
+                'rules'=>array(
+                    'issues' => 'issue/index',
+                    'issue/<id:\d+>/*' => 'issue/view',
+                    'commentfeed'=>array('comment/feed', 'urlSuffix'=>'.xml', 'caseSensitive'=>false),
+                    '<pid:\d+>/commentfeed'=>array('comment/feed', 'urlSuffix'=>'.xml', 'caseSensitive'=>false),
+                ),
+            ),
 			
 			// uncomment the following to enable URLs in path-format
 			/*
