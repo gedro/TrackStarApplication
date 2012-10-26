@@ -1,7 +1,8 @@
 <?php
 
-class SiteController extends Controller
-{
+class SiteController extends Controller {
+    public $defaultAction = 'login';
+
 	/**
 	 * Declares class-based actions.
 	 */
@@ -75,8 +76,11 @@ class SiteController extends Controller
 	/**
 	 * Displays the login page
 	 */
-	public function actionLogin()
-	{
+	public function actionLogin() {
+	    if(!Yii::app()->user->isGuest) {
+            $this->redirect(Yii::app()->homeUrl);
+        }
+
 		$model=new LoginForm;
 
 		// if it is ajax validation request

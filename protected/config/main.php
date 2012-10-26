@@ -27,6 +27,7 @@ return array(
 	'configWeb' => array(
 
 		'basePath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+		'homeUrl'=>'/TrackStarApplication/project',
 		'name' => 'TrackStar Application',
 
 		// Preloading 'log' component
