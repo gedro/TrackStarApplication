@@ -77,6 +77,8 @@ class SiteController extends Controller {
 	 * Displays the login page
 	 */
 	public function actionLogin() {
+    	Yii::app()->language = 'hu_HU';
+    	
 	    if(!Yii::app()->user->isGuest) {
             $this->redirect(Yii::app()->homeUrl);
         }

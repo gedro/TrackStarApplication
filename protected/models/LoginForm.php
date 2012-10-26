@@ -33,11 +33,12 @@ class LoginForm extends CFormModel
 	/**
 	 * Declares attribute labels.
 	 */
-	public function attributeLabels()
-	{
-		return array(
-			'rememberMe'=>'Remember me next time',
-		);
+	public function attributeLabels() {
+        return array(
+        'rememberMe' => Yii::t('default','Remember me next time'),
+        'username' => Yii::t('default', 'Username'),
+        'password' => Yii::t('default', 'Password'),
+        );
 	}
 
 	/**
