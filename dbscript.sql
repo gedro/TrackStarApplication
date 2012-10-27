@@ -129,6 +129,15 @@ ALTER TABLE tbl_comment ADD CONSTRAINT FK_comment_issue
 ALTER TABLE tbl_comment ADD CONSTRAINT FK_comment_author
     FOREIGN KEY (create_user_id) REFERENCES tbl_user (id)
     ON DELETE CASCADE ON UPDATE RESTRICT;
+    
+CREATE TABLE IF NOT EXISTS tbl_sys_message (
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    message TEXT NOT NULL,
+    create_time DATETIME,
+    create_user_id INTEGER,
+    update_time DATETIME,
+    update_user_id INTEGER
+) engine InnoDB;
 
 -- Insert some seed data so we can just begin using the database
 INSERT INTO tbl_user (email, username, password) VALUES
