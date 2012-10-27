@@ -22,6 +22,7 @@
   <message>Line longer than %s characters; contains %s characters</message>
  </rule>
  <rule ref="PEAR"/>
+ <rule ref="Zend"/>
  <rule ref="Squiz">
  <rule ref="Internal.NoCodeFound">
   <severity>0</severity>

@@ -25,6 +25,7 @@
         <delete dir="${basedir}/build/logs"/>
         <delete dir="${basedir}/build/pdepend"/>
         <delete dir="${basedir}/build/cpd"/>
+        <delete dir="${basedir}/generatedJUnitFiles"/>
     </target>
 
     <target name="prepare" depends="clean" description="Prepare for build">
@@ -43,10 +44,13 @@
 
             <fileset dir="${basedir}/protected">
                 <include name="**/*.php" />
+                <exclude name="**/extensions/*"/>
+                <exclude name="**/runtime/*"/>
+                <exclude name="**/vendors/*"/>
                 <modified />
             </fileset>
 
-            <fileset dir="${basedir}/protected/tests">
+            <fileset dir="${basedir}/themes">
                 <include name="**/*.php" />
                 <modified />
             </fileset>
@@ -54,40 +58,60 @@
     </target>
 
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="phploc">
-            <arg value="--log-csv" />
-            <arg value="${basedir}/build/logs/phploc.csv" />
-            <arg path="${basedir}/protected" />
+        <exec dir="${basedir}" executable="phploc">
+            <arg line="--log-csv ${basedir}/build/logs/phploc.csv
+                       --exclude ${basedir}/assets/
+                       --exclude ${basedir}/build/
+                       --exclude ${basedir}/css/
+                       --exclude ${basedir}/images/
+                       --exclude ${basedir}/protected/extensions/
+                       --exclude ${basedir}/protected/runtime/
+                       --exclude ${basedir}/protected/vendors/
+                       . " />
         </exec>
     </target>
 
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
         <exec dir="${basedir}" executable="pdepend" failonerror="false">
             <arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml
+                       --summary-xml=${basedir}/build/logs/pdepend.xml
                        --jdepend-chart=${basedir}/build/pdepend/dependencies.svg
                        --overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg
                        --optimization=best
-                       --exclude=build,tests,modules,extensions
+                       --ignore ${basedir}/assets/,${basedir}/build/,${basedir}/css/,${basedir}/images/,${basedir}/protected/extensions/,${basedir}/protected/runtime/,${basedir}/protected/vendors/
                        ." />
         </exec>
     </target>  
 
     <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
-        <exec dir="${basedir}/protected" executable="phpmd" failonerror="false">
-            <arg line=". xml ${basedir}/build/phpmd.xml --reportfile ${basedir}/build/logs/pmd.xml --exclude ${basedir}/protected/modules/* --exclude ${basedir}/protected/tests/* --exclude ${basedir}/protected/extensions/*" />
+        <exec dir="${basedir}" executable="phpmd" failonerror="false">
+            <arg line=". xml ${basedir}/build/phpmd.xml
+                       --reportfile ${basedir}/build/logs/pmd.xml
+                       --extensions php
+                       --ignore ${basedir}/assets/,${basedir}/build/,${basedir}/css/,${basedir}/images/,${basedir}/protected/extensions/,${basedir}/protected/runtime/,${basedir}/protected/vendors/" />
         </exec>
+        
+        <!--xslt in="${basedir}/build/logs/pmd.xml"
+              style="${basedir}/build/logs/cpd.xslt"
+              out="${basedir}/build/logs/pmdreport.html" /-->
     </target>
 
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-        <exec dir="${basedir}/protected" executable="phpcs" failonerror="false" output="/dev/null">
-            <arg line="--extensions=php --ignore=tests/*,modules/*,extensions/* --standard=Zend --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml ." />
+        <exec dir="${basedir}" executable="phpcs" failonerror="false" output="/dev/null">
+            <arg line="--extensions=php --ignore=*/build/*,*/css/*,*/images/*,*/protected/extensions/*,*/protected/runtime/*,*/protected/vendors/* --standard=${basedir}/build/phpcs.xml --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml ." />
         </exec>
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec dir="${basedir}/protected" executable="phpcpd" failonerror="false">
+        <exec dir="${basedir}" executable="phpcpd" failonerror="false">
             <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml
-                       --exclude tests,modules,extensions
+                       --exclude ${basedir}/assets/
+                       --exclude ${basedir}/build/
+                       --exclude ${basedir}/css/
+                       --exclude ${basedir}/images/
+                       --exclude ${basedir}/protected/extensions/
+                       --exclude ${basedir}/protected/runtime/
+                       --exclude ${basedir}/protected/vendors/
                        ." />
         </exec>
         
@@ -96,16 +120,12 @@
         </exec>
     </target>
 
-    <target name="phpdox" description="Generate API documentation using phpDox">
-        <exec executable="phpdox"/>
-    </target>
-    
-    <target name="documentation" depends="prepare">
-        <exec dir="${basedir}" executable="docblox" failonerror="false">
-            <arg line="run -t ${basedir}/build/docblox" />
+    <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+        <exec dir="${basedir}" executable="phpcb" failonerror="false">
+            <arg line="--log ${basedir}/build/logs --source ${basedir}/protected --output ${basedir}/build/code-browser" />
         </exec>
     </target>
-
+    
     <target name="phpunit" description="Run unit tests using PHPUnit">
         <exec dir="${basedir}/protected/tests" executable="phpunit" failonerror="true">
             <arg line="--configuration ${basedir}/protected/tests/phpunit.xml
@@ -115,10 +135,14 @@
                        ${basedir}/protected/tests/unit" />
         </exec>
     </target>
-
-    <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
-        <exec dir="${basedir}" executable="phpcb" failonerror="false">
-            <arg line="--log ${basedir}/build/logs --source ${basedir}/protected --output ${basedir}/build/code-browser" />
+    
+    <target name="phpdox" description="Generate API documentation using phpDox">
+        <exec executable="phpdox"/>
+    </target>
+    
+    <target name="documentation" depends="prepare">
+        <exec dir="${basedir}" executable="docblox" failonerror="false">
+            <arg line="run -t ${basedir}/build/docblox" />
         </exec>
     </target>
 </project>
