@@ -60,13 +60,15 @@
     <target name="phploc" description="Measure project size using PHPLOC">
         <exec dir="${basedir}" executable="phploc">
             <arg line="--log-csv ${basedir}/build/logs/phploc.csv
-                       --exclude ${basedir}/assets/*
-                       --exclude ${basedir}/build/*
-                       --exclude ${basedir}/css/*
-                       --exclude ${basedir}/images/*
-                       --exclude ${basedir}/protected/extensions/*
-                       --exclude ${basedir}/protected/runtime/*
-                       --exclude ${basedir}/protected/vendors/*
+                       --exclude assets
+                       --exclude build
+                       --exclude css
+                       --exclude images
+                       --exclude protected/extensions
+                       --exclude protected/runtime
+                       --exclude protected/vendors
+                       --progress
+                       --count-tests
                        . " />
         </exec>
     </target>
@@ -77,7 +79,8 @@
                        --summary-xml=${basedir}/build/logs/pdepend.xml
                        --jdepend-chart=${basedir}/build/pdepend/dependencies.svg
                        --overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg
-                       --ignore=${basedir}/assets/,${basedir}/build/,${basedir}/css/,${basedir}/images/,${basedir}/protected/extensions/,${basedir}/protected/runtime/,${basedir}/protected/vendors/" />
+                       --ignore=${basedir}/assets/,${basedir}/build/,${basedir}/css/,${basedir}/images/,${basedir}/protected/extensions/,${basedir}/protected/runtime/,${basedir}/protected/vendors/
+                       . " />
         </exec>
     </target>  
 
@@ -95,21 +98,29 @@
     </target>
 
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-        <exec dir="${basedir}" executable="phpcs" failonerror="false" output="/dev/null">
-            <arg line="--extensions=php --ignore=*/build/*,*/css/*,*/images/*,*/protected/extensions/*,*/protected/runtime/*,*/protected/vendors/* --standard=${basedir}/build/phpcs.xml --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml ." />
+        <exec dir="${basedir}" executable="phpcs" failonerror="false">
+            <arg line="--extensions=php
+                       --standard=${basedir}/build/phpcs.xml
+                       --tab-width=4
+                       --report=checkstyle
+                       --report-file=${basedir}/build/logs/checkstyle.xml
+                       --ignore=build,css,images,protected/extensions,protected/runtime,protected/vendors
+                       . " />
         </exec>
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
         <exec dir="${basedir}" executable="phpcpd" failonerror="false">
             <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml
-                       --exclude ${basedir}/assets/*
-                       --exclude ${basedir}/build/*
-                       --exclude ${basedir}/css/*
-                       --exclude ${basedir}/images/*
-                       --exclude ${basedir}/protected/extensions/*
-                       --exclude ${basedir}/protected/runtime/*
-                       --exclude ${basedir}/protected/vendors/*
+                       --progress
+                       --verbose
+                       --exclude assets
+                       --exclude build
+                       --exclude css
+                       --exclude images
+                       --exclude protected/extensions
+                       --exclude protected/runtime
+                       --exclude protected/vendors
                        ." />
         </exec>
         
@@ -135,7 +146,8 @@
     </target>
     
     <target name="phpdox" description="Generate API documentation using phpDox">
-        <exec executable="phpdox"/>
+        <exec dir="${basedir}/protected" executable="phpdox" failonerror="true">
+            <arg line="--file ${basedir}/protected/build/phpdox.xml" />
     </target>
     
     <target name="documentation" depends="prepare">
