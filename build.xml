@@ -146,9 +146,7 @@
     </target>
     
     <target name="phpdox" description="Generate API documentation using phpDox">
-        <exec dir="${basedir}/protected" executable="phpdox" failonerror="true">
-            <arg line="--file ${basedir}/protected/build/phpdox.xml" />
-        </exec>
+        <exec dir="${basedir}" executable="phpdox" failonerror="true" />
     </target>
     
     <target name="documentation" depends="prepare">
