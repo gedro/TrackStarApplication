@@ -67,7 +67,6 @@
                        --exclude protected/extensions
                        --exclude protected/runtime
                        --exclude protected/vendors
-                       --progress
                        --count-tests
                        . " />
         </exec>
@@ -112,8 +111,6 @@
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
         <exec dir="${basedir}" executable="phpcpd" failonerror="false">
             <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml
-                       --progress
-                       --verbose
                        --exclude assets
                        --exclude build
                        --exclude css
