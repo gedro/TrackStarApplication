@@ -11,13 +11,13 @@
             <!--  <include / exclude filter for filelist generator -->
             <include mask="*.php" />
             <exclude mask="*Autoload.php" />
-            <exclude mask="assets" />
-            <exclude mask="build" />
-            <exclude mask="css" />
-            <exclude mask="images" />
-            <exclude mask="protected/extensions" />
-            <exclude mask="protected/runtime" />
-            <exclude mask="protected/vendors" />
+            <exclude mask="*/assets*" />
+            <exclude mask="*/build*" />
+            <exclude mask="*/css*" />
+            <exclude mask="*/images*" />
+            <exclude mask="*/protected/extensions*" />
+            <exclude mask="*/protected/runtime*" />
+            <exclude mask="*/protected/vendors*" />
         </collector>
     
         <!--  Configuration of generation process -->
