@@ -16,15 +16,17 @@ class AdminModule extends CWebModule
 		$this->layout = 'main';
 	}
 
-	public function beforeControllerAction($controller, $action)
-	{
-		if(parent::beforeControllerAction($controller, $action))
-		{
+	public function beforeControllerAction($controller, $action) {
+		if(parent::beforeControllerAction($controller, $action)) {
 			// this method is called before any module controller action is performed
 			// you may place customized code here
-			return true;
-		}
-		else
+            if( !Yii::app()->authManager->checkAccess("admin", Yii::app()->user->id) ) {
+                throw new CHttpException(403, Yii::t('yii','You are not authorized to perform this action.'));
+            } else {
+                return true;
+            }
+		} else {
 			return false;
+		}
 	}
 }
