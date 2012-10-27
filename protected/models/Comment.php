@@ -104,10 +104,7 @@ class Comment extends TrackStarActiveRecord {
 			'criteria'=>$criteria,
 		));
 	}
-	
-	/**
-	 * @medium
-	 */
+
     public static function findRecentComments($limit = 10, $projectId = null) {
         if($projectId != null) {
             $with = array('issue' => array('condition' => 'project_id=' . $projectId));
