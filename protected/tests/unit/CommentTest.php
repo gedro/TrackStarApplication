@@ -6,6 +6,9 @@ class CommentTest extends CDbTestCase {
         'issues' => 'Issue',
     );
     
+	/**
+	 * @medium
+	 */
     public function testRecentComments() {
         //retrieve all the comments for all projects
         $recentComments = Comment::findRecentComments();
