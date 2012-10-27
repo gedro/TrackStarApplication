@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * @medium
+ */
 class IssueTest extends CDbTestCase {
     public $fixtures=array(
         'projects' => 'Project',
