@@ -38,6 +38,7 @@ return array(
 		'import' => array(
 			'application.models.*',
 			'application.components.*',
+			'application.modules.admin.models.*',
 		),
 		
         'modules'=>array(
