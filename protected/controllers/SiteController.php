@@ -77,6 +77,8 @@ class SiteController extends Controller {
 	 * Displays the login page
 	 */
 	public function actionLogin() {
+    	Yii::trace("The actionLogin() method is being requested", "application.controllers.SiteController");
+
     	Yii::app()->language = 'hu_HU';
     	
 	    if(!Yii::app()->user->isGuest) {
@@ -86,8 +88,7 @@ class SiteController extends Controller {
 		$model=new LoginForm;
 
 		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-		{
+		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
@@ -97,8 +98,12 @@ class SiteController extends Controller {
 		{
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
+			if($model->validate() && $model->login()) {
+    			Yii::log("Successful login of user: " . Yii::app()->user->id, "info", "application.controllers.SiteController");
 				$this->redirect(Yii::app()->user->returnUrl);
+			} else {
+                Yii::log("Failed login attempt", "warning", "application.controllers.SiteController");
+            }
 		}
 		// display the login form
 		$this->render('login',array('model'=>$model));
