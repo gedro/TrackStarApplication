@@ -41,8 +41,16 @@ return array(
 					// Save log messages on file
 					array(
 						'class' => 'CFileLogRoute',
-						'levels' => 'error, warning, trace, info',
+						'levels' => 'error, warning',
 					),
+                    array(
+                        'class' => 'CFileLogRoute',
+                        'levels' => 'info, trace',
+                        //'maxLogFiles' => ow many files are to be kept
+                        //'maxFileSize' => ...
+                        //'logPath' => 'path/to/logfile'
+                        'logFile' => 'infoMessages.log',
+                    ),
 					// Show log messages on web pages
 					array(
 						'class' => 'CWebLogRoute',
